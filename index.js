@@ -1,14 +1,14 @@
-let todos = [];
-let isEditing = [];
-let isChecked = [];
+let todos = localStorage.getItem("myTodoList") ? JSON.parse(localStorage.getItem("myTodoList")).todos:[];
+let isEditing = localStorage.getItem("myTodoList") ? JSON.parse(localStorage.getItem("myTodoList")).isEditing:[];
+let isChecked = localStorage.getItem("myTodoList") ? JSON.parse(localStorage.getItem("myTodoList")).isChecked:[];
 
 function addTodo() {
-  console.log("add Button clicked");
   const newTodo = document.querySelector("#add-todo-input").value.trim();
   if (newTodo) {
     todos.push(newTodo);
     isEditing.push(false);
     isChecked.push(false);
+    localStorage.setItem("myTodoList", JSON.stringify({todos,isEditing,isChecked}))
     renderTodos();
   }
   document.querySelector("#add-todo-input").value = "";
@@ -18,6 +18,7 @@ function deleteTodo(index) {
   todos.splice(index, 1);
   isEditing.splice(index, 1);
   isChecked.splice(index, 1);
+  localStorage.setItem("myTodoList", JSON.stringify({todos,isEditing,isChecked}))
   renderTodos();
 }
 
@@ -28,6 +29,7 @@ function updateTodo(index) {
   } else {
     isEditing[index] = true;
   }
+  localStorage.setItem("myTodoList", JSON.stringify({todos,isEditing,isChecked}))
   renderTodos();
 }
 
@@ -37,6 +39,7 @@ function checkTodo(index) {
   } else {
     isChecked[index] = true;
   }
+  localStorage.setItem("myTodoList", JSON.stringify({todos,isEditing,isChecked}))
   renderTodos();
 }
 
@@ -123,3 +126,5 @@ function renderTodos() {
     }
   }
 }
+
+renderTodos()
